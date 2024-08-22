@@ -1,0 +1,77 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --font-sans: 'Inter', sans-serif;
+}
+
+/* Toggle Theme */
+.dark {
+    --bg-color: #000;
+    --text-color: #fff;
+}
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-sans);
+}
+  
+html, body {
+    height: 100%;
+    width: 100%;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 16px;
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+  
+a {
+    text-decoration: none;
+    color: inherit;
+}
+  
+button {
+    cursor: pointer;
+}
+  
+img {
+    max-width: 100%;
+    height: auto;
+}
+  
+input, textarea {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+table {
+	font-family: arial, sans-serif;
+	margin-top: 30px;
+	border-collapse: collapse;
+	width: 100%;
+	box-shadow: 0 2px 5px 0 rgba(50, 50, 105, 0.15),
+		0 1px 1px 0 rgba(0, 0, 0, 0.05);
+}
+th {
+	background-color: #5ab2ff;
+}
+td,
+th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+
+tr:nth-child(even) {
+	background-color: #eeeeee;
+}
+tr:hover {
+	background-color: #f7f5f2;
+}
