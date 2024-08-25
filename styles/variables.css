@@ -1,0 +1,42 @@
+@layer base {
+    :root {
+        /* Color Variables */
+        --primary-color: #0070f3;    /* Primary brand color */
+        --secondary-color: #1c1c1e;  /* Secondary color */
+        --background-color: #ffffff; /* Default background color */
+        --foreground-color: #333333; /* Default text color */
+        --accent-color: #ff4081;     /* Accent color for buttons and links */
+        --muted-color: #f4f4f5;      /* Muted/gray color for borders and backgrounds */
+        --border-color: #eaeaea;     /* Border color */
+
+        /* Font Variables */
+        --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        --font-family-mono: 'Menlo', 'Monaco', 'Courier New', monospace;
+
+        /* Font Size Variables */
+        --font-size-sm: 0.875rem;   /* Small text size */
+        --font-size-base: 1rem;     /* Base text size */
+        --font-size-lg: 1.125rem;   /* Large text size */
+        --font-size-xl: 1.25rem;    /* Extra large text size */
+        --font-size-2xl: 1.5rem;    /* 2x large text size */
+
+        /* Spacing Variables */
+        --space-xs: 0.25rem;  /* Extra small spacing */
+        --space-sm: 0.5rem;   /* Small spacing */
+        --space-md: 1rem;     /* Medium spacing */
+        --space-lg: 1.5rem;   /* Large spacing */
+        --space-xl: 2rem;     /* Extra large spacing */
+
+        /* Border Radius */
+        --border-radius-sm: 0.125rem; /* Small border radius */
+        --border-radius-md: 0.25rem;  /* Medium border radius */
+        --border-radius-lg: 0.5rem;   /* Large border radius */
+
+        /* Shadow Variables */
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);    /* Small shadow */
+        --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);     /* Medium shadow */
+        --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);   /* Large shadow */
+        --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);  /* Extra large shadow */
+        
+    }
+}

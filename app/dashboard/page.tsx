@@ -1,49 +1,3 @@
-/*
-"use client";
-
-import React from 'react';
-import Link from "next/link";
-import { useUser } from '@clerk/nextjs';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
-
-const DashboardPage = () => {
-  const { user } = useUser();
-
-	if (!user) return <div>Loading...</div>;
-
-	// Determine the name to display
-	const displayName = user.fullName || user.firstName || user.username || 'User';
-
-  return (
-    <section>
-      <Card>
-          <CardHeader>
-            <CardTitle>Dashboard</CardTitle>
-            <CardDescription>Welcome to your dashboard, <span className='text-blue-700 font-bold'>{displayName}</span>! Manage your invoices, customers, and settings here.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link
-              href='/dashboard/settings'
-              className='bg-black p-3 text-red-50 rounded-md'
-            >
-              Add Bank Info
-            </Link>
-          </CardContent>
-      </Card>
-    </section>
-  );
-};
-
-export default DashboardPage;
-*/
-
-
 "use client";
 
 import Link from "next/link";
@@ -52,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle, SquarePen } from "lucide-react";
 import React, { useState, useEffect, useCallback } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import Loading from "@/components/dashboard/Loading";
 
 export default function Dashboard() {
 	const { isLoaded, isSignedIn, user } = useUser();
@@ -76,12 +31,11 @@ export default function Dashboard() {
 	}, [fetchBankInfo, user]);
 
 	if (!isLoaded || !isSignedIn) {
-		return (
-			<div className='w-full h-screen flex items-center justify-center'>
-				<p className='text-lg'>Loading...</p>
-			</div>
-		);
-	}
+    return <Loading />;
+  }
+
+  // Determine the name to display
+	const displayName = user.fullName || user.firstName || user.username || 'User';
 
 	return (
     <section>
@@ -90,7 +44,7 @@ export default function Dashboard() {
           <div>
             <CardHeader>
               <CardTitle>Dashboard</CardTitle>
-              <CardDescription>Welcome, <span className='text-blue-700 font-bold'>(displayName)</span>! Please add a bank info to start using the application!</CardDescription>
+              <CardDescription>Welcome, <span className='text-blue-700 font-bold'>{displayName}</span>! Please add a bank info to start using the application!</CardDescription>
             </CardHeader>
             <CardContent>
               <Link href='/dashboard/settings'>
@@ -107,7 +61,7 @@ export default function Dashboard() {
           <div>
             <CardHeader>
               <CardTitle>Dashboard</CardTitle>
-              <CardDescription>Welcome to your dashboard, <span className='text-blue-700 font-bold'>(displayName)</span>! Manage your invoices, customers, and settings here.</CardDescription>
+              <CardDescription>Welcome to your dashboard, <span className='text-blue-700 font-bold'>{displayName}</span>! Manage your invoices, customers, and settings here.</CardDescription>
             </CardHeader>
             <CardContent>
               <Link href='/dashboard/invoices'>

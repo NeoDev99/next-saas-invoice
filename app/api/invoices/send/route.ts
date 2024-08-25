@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import EmailTemplate from "@/app/emails/email";
+import EmailTemplate from "@/app/dashboard/emails/email";
 import { Resend } from "resend";
+
 const resend = new Resend(process.env.RESEND_API_KEY!);
 
 export async function POST(req: NextRequest) {
@@ -17,7 +18,7 @@ export async function POST(req: NextRequest) {
 
     try {
 		const { data, error } = await resend.emails.send({
-			from: "Acme <onboarding@resend.dev>",
+			from: "SaaS Invoice <onboarding@resend.dev>",
 			to: [customerEmail],
 			subject: title,
 			react: EmailTemplate({

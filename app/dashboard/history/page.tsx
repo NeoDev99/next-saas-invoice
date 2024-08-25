@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useUser } from "@clerk/nextjs";
+import { View } from "lucide-react";
 import Link from "next/link";
 
 import {
@@ -11,8 +12,9 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import { PlusCircle, View } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
+import Loading from "@/components/dashboard/Loading";
   
 export default function HistoryPage() {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -35,12 +37,7 @@ export default function HistoryPage() {
 	}, [fetchInvoices]);
 
 	if (!isSignedIn || !isLoaded) {
-		return (
-			<div className='w-full h-screen flex items-center justify-center'>
-				<p className='text-lg'>Loading...</p>
-			</div>
-		);
-
+		return <Loading />;
 	}
 
   return (

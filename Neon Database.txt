@@ -1,0 +1,28 @@
+CREATE TABLE invoices (
+    id SERIAL PRIMARY KEY NOT NULL,
+    owner_id TEXT NOT NULL,
+    customer_id TEXT NOT NULL,
+    title TEXT NOT NULL,
+    items TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW() NOT NULL,
+    total_amount NUMERIC NOT NULL
+);
+
+CREATE TABLE customers (
+    id SERIAL PRIMARY KEY NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW() NOT NULL,
+    owner_id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    address TEXT NOT NULL
+);
+
+CREATE TABLE bank_info (
+    id SERIAL PRIMARY KEY NOT NULL,
+    owner_id TEXT UNIQUE NOT NULL,
+    bank_name TEXT NOT NULL,
+    account_number NUMERIC NOT NULL,
+    account_name TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW() NOT NULL,
+    currency TEXT NOT NULL
+);

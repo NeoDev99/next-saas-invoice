@@ -3,79 +3,54 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Home, History, SquarePen, Users2, Settings } from "lucide-react";
-import useActiveLink from "@/hooks/useActiveLink"; // Active Link custom hook
+import { NavItem } from "../dashboard/nav-item";
 
-import logo from "/public/logo.svg";
+import logo from "/public/images/logo.svg";
 
 function DesktopNav() {
     return (
-        <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r dark:bg-gray-900 text-gray-400 sm:flex">
-            <nav className="flex flex-col items-center gap-6 px-2 sm:py-5">
+        <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-white dark:bg-gray-900 text-gray-400 sm:flex">
+            <nav className="flex flex-col items-center gap-5 px-2 sm:py-5">
                 <Link
                     href="/home"
                     className="group flex shrink-0 items-center justify-center gap-2 rounded-full bg-gray-200 text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
                 >
                     <Image
                         src={logo}
-                        alt="Acme Inc"
-                        className="h-5 w-5 transition-all group-hover:scale-110"
+                        alt="SaaS Invoice"
+                        className="h-5 w-5 transition-all group-hover:scale-150"
                         width={240}
                         height={240}
                     />
                     <span className="sr-only">Invoicer</span>
                 </Link>
 
-                <Link
-                    href="/dashboard"
-                    className={`px-4 py-2 hover:text-black dark:hover:text-white ${
-                        useActiveLink("/dashboard") ? "text-black dark:text-white" : ""
-                    }`}
-                >
+                <NavItem href="/dashboard" label="Dashboard">
                     <Home className="h-5 w-5" />
-                </Link>
+                </NavItem>
 
-                <div className="w-full border-t border-gray-200 dark:border-gray-700 mb-4"></div>
+                <div className="w-full border-t border-gray-200 dark:border-gray-700 mb-2"></div>
 
-                <Link
-                    href="/dashboard/invoices"
-                    className={`hover:text-black dark:hover:text-white ${
-                        useActiveLink("/dashboard/invoices") ? "text-black dark:text-white" : ""
-                    }`}
-                >
+                <NavItem href="/dashboard/invoices" label="Invoices">
                     <SquarePen className="h-5 w-5" />
-                </Link>
+                </NavItem>
 
-                <Link
-                    href="/dashboard/customers"
-                    className={`hover:text-black dark:hover:text-white ${
-                        useActiveLink("/dashboard/customers") ? "text-black dark:text-white" : ""
-                    }`}
-                >
+                <NavItem href="/dashboard/customers" label="Customers">
                     <Users2 className="h-5 w-5" />
-                </Link>
-
-                <Link
-                    href="/dashboard/history"
-                    className={`hover:text-black dark:hover:text-white ${
-                        useActiveLink("/dashboard/history") ? "text-black dark:text-white" : ""
-                    }`}
-                >
+                </NavItem>
+             
+                <NavItem href="/dashboard/history" label="History">
                     <History className="h-5 w-5" />
-                </Link>
+                </NavItem>
+
             </nav>
 
             <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
                 <div className="w-full border-t border-gray-200 dark:border-gray-700"></div>
 
-                <Link
-                    href="/dashboard/settings"
-                    className={`flex h-9 w-9 items-center justify-center rounded-lg hover:text-black dark:hover:text-white md:h-8 md:w-8 ${
-                        useActiveLink("/dashboard/settings") ? "text-black dark:text-white" : ""
-                    }`}
-                >
+                <NavItem href="/dashboard/settings" label="Settings">
                     <Settings className="h-5 w-5" />
-                    <span className="sr-only">Settings</span>
-                </Link>
+                </NavItem>
             </nav>
         </aside>
     );

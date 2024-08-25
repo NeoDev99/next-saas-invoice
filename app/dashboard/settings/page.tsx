@@ -1,13 +1,13 @@
 "use client";
 
-import { ChangeEvent, useEffect, useState, useCallback } from "react";
 import { useUser } from "@clerk/nextjs";
+import { ChangeEvent, useEffect, useState, useCallback } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-  
+import Loading from "@/components/dashboard/Loading";
+
 export default function SettingsPage() {
     const { isLoaded, isSignedIn, user } = useUser();
 	const [bankInfo, setBankInfo] = useState({
@@ -81,8 +81,9 @@ export default function SettingsPage() {
 	};
 
 	if (!isLoaded || !isSignedIn) {
-		return <p>Loading...</p>;
+		return < Loading />;
 	}
+
 
     return (
         <Card>
@@ -113,9 +114,9 @@ export default function SettingsPage() {
                         method='POST'
                         onSubmit={handleSubmit}
                     >
-                        <label htmlFor='accountName' className='text-sm'>
+                        <Label htmlFor='accountName' className='text-sm'>
                             Account Name
-                        </label>
+                        </Label>
                         <input
                             type='text'
                             name='accountName'
@@ -126,9 +127,9 @@ export default function SettingsPage() {
                             onChange={handleUpdateBankInfo}
                         />
 
-                        <label htmlFor='accountNumber' className='text-sm'>
+                        <Label htmlFor='accountNumber' className='text-sm'>
                             Account Number
-                        </label>
+                        </Label>
                         <input
                             type='number'
                             name='accountNumber'
@@ -139,9 +140,9 @@ export default function SettingsPage() {
                             onChange={handleUpdateBankInfo}
                         />
 
-                        <label htmlFor='bankName' className='text-sm'>
+                        <Label htmlFor='bankName' className='text-sm'>
                             Bank Name
-                        </label>
+                        </Label>
                         <input
                             type='text'
                             name='bankName'
@@ -152,9 +153,9 @@ export default function SettingsPage() {
                             onChange={handleUpdateBankInfo}
                         />
 
-                        <label htmlFor='currency' className='text-sm'>
+                        <Label htmlFor='currency' className='text-sm'>
                             Currency
-                        </label>
+                        </Label>
                         <select
                             name='currency'
                             id='currency'

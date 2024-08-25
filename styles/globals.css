@@ -4,8 +4,38 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    --font-sans: 'Inter', sans-serif;
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 222.2 84% 4.9%;
+
+        --card: #fff;
+        --card-foreground: 222.2 84% 4.9%;
+
+        --popover: 0 0% 100%;
+        --popover-foreground: 222.2 84% 4.9%;
+
+        --primary: 222.2 47.4% 11.2%;
+        --primary-foreground: 210 40% 98%;
+
+        --secondary: 210 40% 96.1%;
+        --secondary-foreground: 222.2 47.4% 11.2%;
+
+        --muted: 210 40% 96.1%;
+        --muted-foreground: 215.4 16.3% 46.9%;
+
+        --accent: 210 40% 96.1%;
+        --accent-foreground: 222.2 47.4% 11.2%;
+
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 210 40% 98%;
+
+        --border: 214.3 31.8% 91.4%;
+        --input: 214.3 31.8% 91.4%;
+        --ring: 222.2 84% 4.9%;
+
+        --radius: 0.5rem;
+    }
 }
 
 /* Toggle Theme */
@@ -25,7 +55,7 @@
 html, body {
     height: 100%;
     width: 100%;
-    background-color: var(--bg-color);
+    background-color: var(--primary-color);
     color: var(--text-color);
     font-size: 16px;
     line-height: 1.5;
@@ -60,7 +90,7 @@ table {
 		0 1px 1px 0 rgba(0, 0, 0, 0.05);
 }
 th {
-	background-color: #5ab2ff;
+	background-color: var(--primary);
 }
 td,
 th {
@@ -74,4 +104,29 @@ tr:nth-child(even) {
 }
 tr:hover {
 	background-color: #f7f5f2;
+}
+
+/* Custom Utility Classes */
+@layer utilities {
+    .text-sm {
+        font-size: 0.875rem; /* Tailwind's text-sm size */
+        line-height: 1.25rem;
+    }
+    .text-muted-foreground {
+        color: var(--muted-foreground); /* Use custom property */
+    }
+    .bg-card {
+        background-color: var(--card, white); /* Default to white if not defined */
+    }
+    .text-card-foreground {
+        color: var(--card-foreground);
+    }
+    .text-muted-foreground {
+        color: var(--muted-foreground);
+    }
+    .shadow-sm {
+        --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+        box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    }
 }

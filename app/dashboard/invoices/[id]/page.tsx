@@ -1,13 +1,14 @@
 "use client";
-import React, { useRef } from "react";
+
+import React, { forwardRef, useRef, useCallback, useEffect, useState } from "react";
 import { useReactToPrint } from "react-to-print";
-import InvoiceTable from "@/components/dashboard/InvoiceTable";
-import { useEffect, useCallback, useState } from "react";
-import { useUser } from "@clerk/nextjs";
-import { forwardRef } from "react";
-import { useParams, useSearchParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { Download, Send } from "lucide-react";
+import { useParams, useSearchParams } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
+
+import { Button } from "@/components/ui/button";
+import InvoiceTable from "@/components/dashboard/InvoiceTable";
+import Loading from "@/components/dashboard/Loading";
 
 interface Props {
 	id: string;
@@ -144,11 +145,7 @@ export default function Invoices() {
 	});
 
 	if (!isLoaded || !isSignedIn) {
-		return (
-			<div className='w-full h-screen flex items-center justify-center'>
-				<p className='text-lg'>Loading...</p>
-			</div>
-		);
+		return <Loading />;
 	}
 
 	return (
@@ -161,7 +158,8 @@ export default function Invoices() {
 					</span>
 				</Button>
 
-				<Button size="lg"
+				<Button
+					size="lg"
 					className='bg-green-700 p-3 text-white mt-4 h-8 gap-2'
 					onClick={() => {
 						setDisabled(true);
@@ -175,6 +173,7 @@ export default function Invoices() {
 					</span>
 				</Button>
 			</section>
+			
 			{bankInfo && customer && invoice && (
 				<ComponentToPrint
 					ref={componentRef}
@@ -187,3 +186,57 @@ export default function Invoices() {
 		</main>
 	);
 }
+
+
+/**
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+	return (
+		<Tabs defaultValue="all">
+			<div className="flex items-center">
+				<TabsList>
+					<TabsTrigger value="all">All</TabsTrigger>
+					<TabsTrigger value="active">Active</TabsTrigger>
+					<TabsTrigger value="draft">Draft</TabsTrigger>
+					<TabsTrigger value="archived" className="hidden sm:flex">
+						Archived
+					</TabsTrigger>
+				</TabsList>
+				<div className="ml-auto flex items-center gap-2">
+				<Button size="lg" className='bg-blue-900 p-3 text-white mt-4 h-8 gap-2' onClick={handlePrint}>
+					<Download className="h-3.5 w-3.5" />
+					<span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+						Download
+					</span>
+				</Button>
+
+				<Button
+					size="lg"
+					className='bg-green-700 p-3 text-white mt-4 h-8 gap-2'
+					onClick={() => {
+						setDisabled(true);
+						handleSendInvoice()
+					}}
+					disabled={disabled}
+				>
+					<Send className="h-3.5 w-3.5" />
+					<span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+						{disabled ? "Sending..." : "Send Invoice"}
+					</span>
+				</Button>
+				</div>
+			</div>
+			
+			{bankInfo && customer && invoice && (
+				<ComponentToPrint
+					ref={componentRef}
+					id={id}
+					customer={customer}
+					bankInfo={bankInfo}
+					invoice={invoice}
+				/>
+			)}
+		</Tabs>
+	);
+}
+ */

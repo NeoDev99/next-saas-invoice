@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { PlusCircle } from "lucide-react";
+import Swal from "sweetalert2";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from "@/components/ui/textarea";
@@ -11,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
 import CustomersTable from "@/components/dashboard/CustomersTable";
+import Loading from "@/components/dashboard/Loading";
 
 export default function CustomersPage() {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -22,11 +24,14 @@ export default function CustomersPage() {
 
   const fetchCustomers = useCallback(async () => {
     try {
+      setLoading(true); // Set loading to true while fetching data
       const res = await fetch(`/api/customers?userID=${user?.id}`);
       const data = await res.json();
       setCustomers(data.customers);
+      setLoading(false); // Set loading to false after fetching data
     } catch (err) {
       console.error(err);
+      setLoading(false); // Set loading to false if there's an error
     }
   }, [user]);
 
@@ -52,13 +57,33 @@ export default function CustomersPage() {
         },
       });
       const response = await request.json();
-      alert(response.message);
+
+      // Use SweetAlert for success feedback
+      Swal.fire({
+        title: 'Success!',
+        text: response.message,
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
+
       setCustomerAddress("");
       setCustomerEmail("");
       setCustomerName("");
       setLoading(false);
+
+      // Refresh customer list after adding a new customer
+      fetchCustomers();
     } catch (err) {
       console.error(err);
+
+      // Use SweetAlert for error feedback
+      Swal.fire({
+        title: 'Error!',
+        text: 'Something went wrong while adding the customer.',
+        icon: 'error',
+        confirmButtonText: 'Try Again',
+      });
+      
       setLoading(false);
     }
   };
@@ -68,8 +93,9 @@ export default function CustomersPage() {
     createCustomer();
   };
 
-  if (!isLoaded || !isSignedIn) {
-    return <p>Loading...</p>;
+  // Use the Loading component when data is loading or user authentication is not completed
+  if (!isLoaded || !isSignedIn || loading) {
+    return <Loading />;
   }
 
   return (
