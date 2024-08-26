@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from 'react';
 import {
 	TableHead,
 	TableRow,
@@ -18,12 +19,14 @@ import {
 import { Button } from '@/components/ui/button';
 import { MoreHorizontal } from 'lucide-react';
 import Swal from "sweetalert2";
+import { Dialog, DialogContent, DialogOverlay, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 interface Customer {
 	name: string;
 	email: string;
 	id: number;
 	created_at?: string;
+	address: string;
 }
 
 // Function to format date
@@ -36,8 +39,13 @@ const formatDate = (dateString?: string): string => {
 };
 
 export default function CustomersTable({ customers }: { customers: Customer[] }) {
+	const [editDialogOpen, setEditDialogOpen] = useState(false);
+	const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+	const [newName, setNewName] = useState('');
+	const [newEmail, setNewEmail] = useState('');
+	const [newAddress, setNewAddress] = useState('');
 
-  	const deleteCustomer = async (id: number) => { 
+	const deleteCustomer = async (id: number) => { 
 		try {
 			const result = await Swal.fire({
 				title: "Are you sure?",
@@ -61,13 +69,17 @@ export default function CustomersTable({ customers }: { customers: Customer[] })
 			Swal.fire("Error!", "Something went wrong while deleting the customer.", "error");
 			console.error(err);
 		}
-  	}
+	}
 
-	const editCustomer = async (id: number) => {
-		const newName = prompt("Enter the new name:");
-		const newEmail = prompt("Enter the new email:");
-		const newAddress = prompt("Enter the new address:");
+	const openEditDialog = (customer: Customer) => {
+		setSelectedCustomer(customer);
+		setNewName(customer.name);
+		setNewEmail(customer.email);
+		setNewAddress(customer.address || '');
+		setEditDialogOpen(true);
+	}
 
+	const handleEditCustomer = async () => {
 		if (newName && newEmail && newAddress) {
 			try {
 				const request = await fetch(`/api/customers`, {
@@ -76,22 +88,24 @@ export default function CustomersTable({ customers }: { customers: Customer[] })
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						id,
+						id: selectedCustomer?.id,
 						name: newName,
 						email: newEmail,
 						address: newAddress,
 					}),
 				});
 				const response = await request.json();
-				alert(response.message);
+				Swal.fire("Updated!", response.message, "success");
+				setEditDialogOpen(false);
 			} catch (err) {
+				Swal.fire("Error!", "Something went wrong while updating the customer.", "error");
 				console.error(err);
 			}
 		} else {
-			alert("Name, email, and address cannot be empty.");
+			Swal.fire("Error!", "Name, email, and address cannot be empty.", "error");
 		}
 	}
-	  
+
 	return (
 		<section>
 			<Table>
@@ -132,7 +146,7 @@ export default function CustomersTable({ customers }: { customers: Customer[] })
 								<DropdownMenuContent align='end'>
 									<DropdownMenuLabel>Actions</DropdownMenuLabel>
 									<DropdownMenuItem
-										onClick={() => editCustomer(customer.id)}
+										onClick={() => openEditDialog(customer)}
 									>
 										Edit
 									</DropdownMenuItem>
@@ -155,6 +169,60 @@ export default function CustomersTable({ customers }: { customers: Customer[] })
 					)}
 				</TableBody>
 			</Table>
+
+			{/* Edit Customer Dialog */}
+			<Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+				<DialogOverlay />
+				<DialogContent>
+					<DialogTitle className="text-lg font-bold">Edit Customer</DialogTitle>
+					<DialogDescription className="mb-4">Update the customer details below.</DialogDescription>
+					<form
+						onSubmit={(e) => {
+							e.preventDefault();
+							handleEditCustomer();
+						}}
+					>
+						<div className="mb-4">
+							<label htmlFor="name" className="block text-sm font-medium">Name</label>
+							<input
+								id="name"
+								type="text"
+								className="border rounded px-3 py-2 w-full"
+								value={newName}
+								onChange={(e) => setNewName(e.target.value)}
+							/>
+						</div>
+						<div className="mb-4">
+							<label htmlFor="email" className="block text-sm font-medium">Email</label>
+							<input
+								id="email"
+								type="email"
+								className="border rounded px-3 py-2 w-full"
+								value={newEmail}
+								onChange={(e) => setNewEmail(e.target.value)}
+							/>
+						</div>
+						<div className="mb-4">
+							<label htmlFor="address" className="block text-sm font-medium">Address</label>
+							<input
+								id="address"
+								type="text"
+								className="border rounded px-3 py-2 w-full"
+								value={newAddress}
+								onChange={(e) => setNewAddress(e.target.value)}
+							/>
+						</div>
+						<div className="flex justify-end">
+							<Button type="button" variant="outline" onClick={() => setEditDialogOpen(false)}>
+								Cancel
+							</Button>
+							<Button type="submit" className="ml-2 bg-green-300 hover:bg-green-400 text-white">
+								Update
+							</Button>
+						</div>
+					</form>
+				</DialogContent>
+			</Dialog>
 		</section>
 	);
 }

@@ -29,7 +29,10 @@ export async function GET(req: NextRequest) {
 	
 	try {
 		const invoices = await getUserInvoices(userID!);
-		return NextResponse.json({message: "Invoices retrieved successfully!", invoices}, { status: 200 });
+		return NextResponse.json(
+			{ message: "Invoices retrieved successfully!", invoices},
+			{ status: 200 }
+		);
 	} catch (err) {
 		return NextResponse.json(
 			{ message: "An error occurred", err },
